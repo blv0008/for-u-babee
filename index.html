@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>For You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  margin:0;height:100vh;background:black;color:#ff4fd8;
+  font-family:'Segoe UI',sans-serif;overflow:hidden;
+}
+.page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;flex-direction:column;text-align:center}
+.active{display:flex}
+h1{text-shadow:0 0 12px #ff4fd8}
+.btn{
+  margin:8px;padding:10px 26px;border:none;border-radius:20px;
+  background:#ff4fd8;color:black;font-size:14px;cursor:pointer;
+  box-shadow:0 0 12px #ff4fd8;
+  transition:0.2s;
+}
+.btn:hover{transform:scale(1.05);filter:brightness(1.1)}
+.btn:active{transform:scale(0.95)}
+
+/* GAME */
+.grid{display:grid;grid-template-columns:repeat(3,70px);gap:10px;margin:15px}
+.cell{
+  width:70px;height:70px;border:2px solid #ff4fd8;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;cursor:pointer;box-shadow:0 0 10px #ff4fd8 inset;
+}
+
+/* FLOWER */
+.flower{position:relative;width:200px;height:260px}
+.stem{width:6px;height:150px;background:#2ecc71;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.petals{position:absolute;width:100px;height:100px;top:-50px;left:50%;transform:translateX(-50%) scale(0);transition:1s}
+.petal{width:50px;height:50px;background:#ff4fd8;border-radius:50%;position:absolute;box-shadow:0 0 15px #ff4fd8}
+.petal:nth-child(1){top:0;left:25px}
+.petal:nth-child(2){top:25px;left:0}
+.petal:nth-child(3){top:25px;left:50px}
+.petal:nth-child(4){top:50px;left:25px}
+.flower.open .petals{transform:translateX(-50%) scale(1)}
+
+/* FLOAT */
+.heart{
+  position:absolute;color:#ff4fd8;font-size:18px;
+  animation:float 8s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(110vh)}
+  to{transform:translateY(-120px)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 GAME -->
+<div id="p1" class="page active">
+  <h1>🎯 Cari Hati</h1>
+  <p>Pilih kotak yang ada 💖</p>
+  <div class="grid" id="grid"></div>
+  <div>Score: <span id="score">0</span></div>
+  <button class="btn" onclick="newRound()">🔄 Ronde Baru</button>
+  <button class="btn" onclick="go(2)">Next ➜</button>
+</div>
+
+<!-- PAGE 2 FLOWER -->
+<div id="p2" class="page">
+  <h1>🌸 Bunga Mekar</h1>
+  <div class="flower" onclick="bloom(this)">
+    <div class="stem"></div>
+    <div class="petals">
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div>
+    </div>
+  </div>
+  <p>Klik bunganya</p>
+  <button class="btn" onclick="go(3)">Next ➜</button>
+</div>
+
+<!-- PAGE 3 WORDS -->
+<div id="p3" class="page">
+  <h1>💬 Untuk Kamu</h1>
+  <p id="words">Klik tombolnya</p>
+  <button class="btn" onclick="nextWord()">Tampilkan</button>
+  <button class="btn" onclick="go(1)">⟲ Ulang</button>
+</div>
+
+<script>
+let score=0;
+let current=1;
+let heartIndex=0;
+
+const words=[
+"aku udaa bener bener nyaman sama kamuu sayangg.",
+"kamuu bikin hari-hariku lebi tenangg.",
+"akuu bersyukur bangett bisa kenal sama kamu babee.",
+"trimakasii uda hadir di hidupkuu.",
+"lovee uu so much and everything."
+];
+
+function go(n){
+  document.getElementById("p"+current).classList.remove("active");
+  document.getElementById("p"+n).classList.add("active");
+  current=n;
+}
+
+function bloom(el){
+  el.classList.toggle("open");
+}
+
+function newRound(){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+  heartIndex=Math.floor(Math.random()*9);
+  for(let i=0;i<9;i++){
+    const c=document.createElement("div");
+    c.className="cell";
+    c.onclick=()=>check(i,c);
+    grid.appendChild(c);
+  }
+}
+
+function check(i,cell){
+  if(i===heartIndex){
+    cell.innerHTML="💖";
+    score++;
+    document.getElementById("score").innerText=score;
+  }else{
+    cell.innerHTML="❌";
+  }
+}
+
+function nextWord(){
+  const w=words[Math.floor(Math.random()*words.length)];
+  document.getElementById("words").innerText=w;
+}
+
+// hearts floating
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*innerWidth+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),8000);
+},500);
+
+// start game
+newRound();
+</script>
+
+</body>
+</html>
+
