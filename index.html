@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>For You</title>
+<title>For You 💗</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{
@@ -11,14 +11,15 @@ body{
 }
 .page{position:absolute;inset:0;display:none;justify-content:center;align-items:center;flex-direction:column;text-align:center}
 .active{display:flex}
-h1{text-shadow:0 0 12px #ff4fd8}
+h1{text-shadow:0 0 14px #ff4fd8}
+p{max-width:80%}
 .btn{
   margin:8px;padding:10px 26px;border:none;border-radius:20px;
   background:#ff4fd8;color:black;font-size:14px;cursor:pointer;
   box-shadow:0 0 12px #ff4fd8;
   transition:0.2s;
 }
-.btn:hover{transform:scale(1.05);filter:brightness(1.1)}
+.btn:hover{transform:scale(1.05)}
 .btn:active{transform:scale(0.95)}
 
 /* GAME */
@@ -30,7 +31,7 @@ h1{text-shadow:0 0 12px #ff4fd8}
 }
 
 /* FLOWER */
-.flower{position:relative;width:200px;height:260px}
+.flower{position:relative;width:200px;height:260px;cursor:pointer}
 .stem{width:6px;height:150px;background:#2ecc71;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
 .petals{position:absolute;width:100px;height:100px;top:-50px;left:50%;transform:translateX(-50%) scale(0);transition:1s}
 .petal{width:50px;height:50px;background:#ff4fd8;border-radius:50%;position:absolute;box-shadow:0 0 15px #ff4fd8}
@@ -40,7 +41,7 @@ h1{text-shadow:0 0 12px #ff4fd8}
 .petal:nth-child(4){top:50px;left:25px}
 .flower.open .petals{transform:translateX(-50%) scale(1)}
 
-/* FLOAT */
+/* FLOAT HEART */
 .heart{
   position:absolute;color:#ff4fd8;font-size:18px;
   animation:float 8s linear infinite;
@@ -54,9 +55,14 @@ h1{text-shadow:0 0 12px #ff4fd8}
 
 <body>
 
+<!-- 🎵 MUSIC (no ads, local file) -->
+<audio id="bgm" autoplay loop>
+  <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
+</audio>
+
 <!-- PAGE 1 GAME -->
 <div id="p1" class="page active">
-  <h1>🎯 Cari Hati</h1>
+  <h1>🎯 Mini Game: Cari Hati</h1>
   <p>Pilih kotak yang ada 💖</p>
   <div class="grid" id="grid"></div>
   <div>Score: <span id="score">0</span></div>
@@ -74,14 +80,14 @@ h1{text-shadow:0 0 12px #ff4fd8}
       <div class="petal"></div><div class="petal"></div>
     </div>
   </div>
-  <p>Klik bunganya</p>
+  <p>Klik bunganya biar mekar ✨</p>
   <button class="btn" onclick="go(3)">Next ➜</button>
 </div>
 
 <!-- PAGE 3 WORDS -->
 <div id="p3" class="page">
   <h1>💬 Untuk Kamu</h1>
-  <p id="words">Klik tombolnya</p>
+  <p id="words">Klik tombolnya ya</p>
   <button class="btn" onclick="nextWord()">Tampilkan</button>
   <button class="btn" onclick="go(1)">⟲ Ulang</button>
 </div>
@@ -136,7 +142,7 @@ function nextWord(){
   document.getElementById("words").innerText=w;
 }
 
-// hearts floating
+// floating hearts
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
@@ -146,10 +152,11 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),8000);
 },500);
 
-// start game
+// start
 newRound();
 </script>
 
 </body>
 </html>
+
 
